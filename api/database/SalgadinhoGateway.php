@@ -63,7 +63,7 @@ class SalgadinhoGateway
     // Função para listar todos os salgadinhos
     public static function findAll()
     {
-        $sql = "SELECT * FROM salgadinhos";
+        $sql = "SELECT id, nome, sabor FROM salgadinhos";
         $result = self::$conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }

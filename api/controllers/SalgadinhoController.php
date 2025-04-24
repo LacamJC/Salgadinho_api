@@ -3,7 +3,7 @@
 namespace Api\Controllers;
 
 use Api\Services\SalgadinhoService;
-
+use Api\Services\Res;
 class SalgadinhoController
 {
     public function index($params = [])
@@ -13,9 +13,10 @@ class SalgadinhoController
 
     public function all($params = [])
     {
+        $response = new Res;
         if (empty($params)) {
             $result = SalgadinhoService::all();
-            print_r($result);
+            $response->send($result);
         }
     }
 }
