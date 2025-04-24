@@ -9,8 +9,10 @@ $router = new Router();
 $router->get('/', 'SalgadinhoController@index');
 
 // Definindo outra rota para "/teste"
-$router->get('salgadinhos', 'SalgadinhoController@all');
-$router->get('salgadinho/{id}', 'SalgadinhoController@findById');
+$router->get('salgadinhos/', 'SalgadinhoController@all');
+$router->get('salgadinhos/{id}', 'SalgadinhoController@findById');
+
+$router->post('salgadinhos/', 'SalgadinhoController@store');
 
 
 return $router;

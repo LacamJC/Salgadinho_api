@@ -23,8 +23,16 @@ class SalgadinhoService{
         return $result;
 
     }
-    public static function delete(){}
-    public static function save(){}
+
+    public static function store($dados){
+        // print_r($dados);
+        $conn = Connection::open('database');
+        SalgadinhoGateway::setConnection($conn);
+        $salgadinho = new SalgadinhoGateway($dados['nome'], $dados['sabor']);
+        $result = $salgadinho->save();
+        // echo $result;
+        return $result;
+    }
 }
 
 ?>

@@ -36,21 +36,27 @@ class SalgadinhoGateway
     public function save()
     {
         try {
-            if (empty($this->id)) {
+            if (empty($this->data['id'])) {
                 // Inserção de um novo salgadinho
-                $sql = "INSERT INTO salgadinhos (nome, sabor) VALUES ('{$this->nome}', '{$this->sabor}')";
+                if(self::verifyExists($this->nome, $this->sabor)){
+                    return json_encode(['message' => 'Sabor de salgadinho ja existe']);
+                }
+                $id = $this->getLastId() +1;
+                $sql = "INSERT INTO salgadinhos (id, nome, sabor) VALUES ('{$id}','{$this->nome}', '{$this->sabor}')";
             } else {
                 // Atualização de um salgadinho existente
-                $sql = "UPDATE salgadinhos SET nome = '{$this->nome}', sabor = '{$this->sabor}' WHERE id = {$this->id}";
+                $sql = "UPDATE salgadinhos SET nome = '{$this->nome}', sabor = '{$this->sabor}' WHERE id = {$this->data['id']}";
             }
 
             // Executando o SQL
-            return self::$conn->exec($sql);
+            self::$conn->exec($sql);
+            return json_encode(['message' => 'Sucesso ao salvar salgadinho']);
         } catch (Exception $e) {
             echo "Erro: " . $e->getMessage();
-            return false;
+            return json_encode(['message' => 'Erro ao salvar salgadinho']);
         }
     }
+
 
     // Função para buscar um salgadinho por id
     public static function findById($id)
@@ -60,11 +66,34 @@ class SalgadinhoGateway
         return $result->fetch(PDO::FETCH_ASSOC);
     }
 
+    public static function verifyExists($name, $sabor)
+    {
+        $sql = "SELECT * FROM salgadinhos WHERE nome = '{$name}' AND sabor = '{$sabor}'";
+        $result = self::$conn->query($sql);
+
+        if ($result && is_array($result->fetch(PDO::FETCH_ASSOC))) {
+            return true; // O salgadinho existe
+        } else {
+            return false; // O salgadinho não existe
+        }
+    }
+
     // Função para listar todos os salgadinhos
     public static function findAll()
     {
         $sql = "SELECT id, nome, sabor FROM salgadinhos";
         $result = self::$conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
+    public function getLastId(){
+        try{
+            $sql = "SELECT max(id) as max FROM salgadinhos";
+            $result = self::$conn->query($sql);
+            $data = $result->fetch(PDO::FETCH_OBJ);
+            return $data->max;
+        }catch(Exception $e){
+            echo $e->getMessage();
+        }
     }
 }
