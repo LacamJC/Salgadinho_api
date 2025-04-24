@@ -19,4 +19,15 @@ class SalgadinhoController
             $response->send($result);
         }
     }
+
+    public function findById($params = []){
+        $id = $params['id'] ?? null;
+        $response = new Res;
+        if(!empty($id)){
+            $salgadinho = SalgadinhoService::findById($id);
+            $response->send($salgadinho);
+        }else{
+            echo "Nenhum registro encontrado";
+        }
+    }
 }

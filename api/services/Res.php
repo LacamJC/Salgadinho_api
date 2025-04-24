@@ -9,6 +9,6 @@ class Res
         // Definindo o cabeçalho para JSON
         header('Content-Type: application/json');
         // Retornando os dados como JSON
-        echo ($data);
+        echo json_encode($data, JSON_PRETTY_PRINT);
     }
 }

@@ -12,10 +12,17 @@ class SalgadinhoService{
         $conn = Connection::open('database');
         SalgadinhoGateway::setConnection($conn);
         $result = SalgadinhoGateway::findAll();
-        $toJson = json_encode($result);
-        return $toJson;
+       
+        return $result;
     }
-    public static function findById(){}
+    public static function findById($id){
+        $conn = Connection::open('database');
+        SalgadinhoGateway::setConnection(($conn));
+        $result = SalgadinhoGateway::findById($id);
+
+        return $result;
+
+    }
     public static function delete(){}
     public static function save(){}
 }
