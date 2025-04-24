@@ -1,0 +1,15 @@
+{
+    "name": "ramajo/salgadinho_api",
+    "autoload": {
+        "psr-4": {
+            "Api\\": "api/"
+        }
+    },
+    "authors": [
+        {
+            "name": "LacamJC",
+            "email": "joaoramajo744@gmail.com"
+        }
+    ],
+    "require": {}
+}
