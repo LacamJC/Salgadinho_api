@@ -1,5 +1,5 @@
 RewriteEngine On
-RewriteBase /salgadinhos_api/
+RewriteBase /salgadinho_api/
 
 RewriteCond %{REQUEST_FILENAME} !-f
 RewriteCond %{REQUEST_FILENAME} !-d

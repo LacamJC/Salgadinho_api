@@ -9,7 +9,7 @@ $router = new Router();
 $router->get('/', 'SalgadinhoController@index');
 
 // Definindo outra rota para "/teste"
-$router->get('/teste', 'SalgadinhoController@all');
+$router->get('teste', 'SalgadinhoController@all');
 
-// Disparando a lógica do roteador
-// $router->dispatch();
+
+return $router;
