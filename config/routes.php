@@ -10,7 +10,7 @@ $router = new Router();
 
 // Definindo a rota para a raiz
 $router->get('/', 'SalgadinhoController@index');
-$router->get('usuarios', 'UserController@all');
+$router->get('usuarios', 'UserController@index');
 $router->get('avaliacoes', 'AvaliacaoController@index');
 // Definindo outra rota para "/teste"
 $router->get('salgadinhos', 'SalgadinhoController@all');

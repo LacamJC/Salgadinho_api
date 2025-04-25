@@ -6,6 +6,7 @@ use Api\Database\Connection;
 use Api\Database\UserGateway;
 use Api\Database\AvaliacaoGateway;
 use Api\Database\SalgadinhoGateway;
+use Api\Core\Response;
 
 class AvaliarService
 {
@@ -18,11 +19,13 @@ class AvaliarService
         SalgadinhoGateway::setConnection($conn);
 
         if (!UserGateway::userExists(($id_usuario))) {
-            echo json_encode(['message' => 'Usuario nao existe']);
+            // echo json_encode(['message' => 'Usuario nao existe']);
+            Response::json(['message' => 'Usuario nao existe'], 404);
             return;
         }
         if (!SalgadinhoGateway::idExists($id_salgadinho)) {
-            echo json_encode(['message' => 'Salgadinho nao existe']);
+
+            Response::json(['message' => 'Salgadinho nao existe'], 404);
             return;
         }
 

@@ -42,7 +42,8 @@ class UserGateway
             if (empty($this->data['id'])) {
                 // Inserção de um novo usuario
                 if (self::verifyExists($this->email, $this->senha)) {
-                    return json_encode(['message' => 'Email já cadastrado']);
+                    // return (['message' => 'Email ja cadastrado'], 404);
+                    throw new Exception("Email ja cadastrado");
                 }
                 $id = $this->getLastId() + 1;
                 $sql = "INSERT INTO usuarios (id, nome, email, senha) VALUES ('{$id}','{$this->nome}', '{$this->email}', '{$this->senha}')";
@@ -54,23 +55,22 @@ class UserGateway
             // Executando o SQL
 
             self::$conn->exec($sql);
-            return json_encode(['message' => 'Sucesso ao salvar usuario']);
+            return true;
         } catch (Exception $e) {
-            echo "Erro: " . $e->getMessage();
-            return json_encode(['message' => 'Erro ao salvar usuario']);
+            return $e->getMessage();
         }
     }
 
     public static function findById($id)
     {
-        $sql = "SELECT * FROM usuarios WHERE id = {$id}";
+        $sql = "SELECT id,nome,email FROM usuarios WHERE id = {$id}";
         $result = self::$conn->query($sql);
         return $result->fetch(PDO::FETCH_ASSOC);
     }
 
     public static function findAll()
     {
-        $sql = "SELECT * FROM usuarios";
+        $sql = "SELECT id,nome,email FROM usuarios";
         $result = self::$conn->query($sql);
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
