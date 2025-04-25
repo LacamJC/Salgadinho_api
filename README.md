@@ -202,13 +202,3 @@ erDiagram
         string texto
     }
 ```
-
-## 🤝 Contribuição
-1. Faça um fork do projeto
-2. Crie sua branch (`git checkout -b feature/nova-feature`)
-3. Commit suas mudanças (`git commit -m 'Add nova feature'`)
-4. Push para a branch (`git push origin feature/nova-feature`)
-5. Abra um Pull Request
-
-## 📄 Licença
-MIT License © 2023 [LacamJC](https://github.com/LacamJC)
