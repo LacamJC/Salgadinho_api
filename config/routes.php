@@ -2,6 +2,9 @@
 
 require '../vendor/autoload.php';
 use Api\Core\Router;
+header("Access-Control-Allow-Origin: http://127.0.0.1:5500"); // Permite apenas essa origem
+header("Access-Control-Allow-Methods: POST, GET, OPTIONS, PUT, DELETE"); // Métodos permitidos
+header("Access-Control-Allow-Headers: Content-Type"); // Cabeçalhos permitidos
 
 $router = new Router();
 

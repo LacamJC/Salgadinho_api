@@ -13,6 +13,7 @@ class SalgadinhoService{
         SalgadinhoGateway::setConnection($conn);
         $result = SalgadinhoGateway::findAll();
        
+        // print_r($result);
         return $result;
     }
     public static function findById($id){

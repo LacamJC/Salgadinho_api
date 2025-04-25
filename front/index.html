@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ranking de Salgadinhos</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f9;
+            margin: 0;
+            padding: 0;
+        }
+
+        /* Menu de navegação */
+        nav {
+            background-color: #333;
+            padding: 10px 0;
+        }
+
+        nav ul {
+            list-style-type: none;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        nav ul li {
+            display: inline;
+            margin-right: 20px;
+        }
+
+        nav ul li a {
+            color: white;
+            text-decoration: none;
+            font-size: 18px;
+        }
+
+        nav ul li a:hover {
+            text-decoration: underline;
+        }
+
+        header {
+            background-color: #333;
+            color: white;
+            padding: 10px 0;
+            text-align: center;
+        }
+
+        main {
+            max-width: 1200px;
+            margin: 20px auto;
+            padding: 20px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 20px;
+            background-color: white;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        th,
+        td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        th {
+            background-color: #333;
+            color: white;
+        }
+
+        tr:hover {
+            background-color: #f1f1f1;
+        }
+
+        .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .container h2 {
+            margin: 0;
+            font-size: 1.8em;
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- Menu de navegação -->
+    <nav>
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="cadastro.html">Cadastro de Usuário</a></li>
+            <!-- <  li><a href="ranking.html">Ranking de Salgadinhos</a></li> -->
+        </ul>
+    </nav>
+
+    <header>
+        <h1>Ranking de Salgadinhos</h1>
+    </header>
+
+    <main>
+        <div class="container">
+            <h2>Top Salgadinhos</h2>
+            <button onclick="getRanking()">Carregar Ranking</button>
+        </div>
+
+        <table id="rankingTable">
+            <thead>
+                <tr>
+                    <th>Nome</th>
+                    <th>Sabor</th>
+                    <th>Média da Nota</th>
+                </tr>
+            </thead>
+            <tbody>
+                <!-- As avaliações serão carregadas aqui -->
+            </tbody>
+        </table>
+    </main>
+
+    <script>
+        // Função para buscar o ranking de salgadinhos e exibir na tabela
+        async function getRanking() {
+            try {
+                console.log('buscando dados');
+                const response = await axios.get('http://localhost/salgadinho_api/public/avaliacoes');
+                const data = response.data;
+                const tbody = document.querySelector('#rankingTable tbody');
+                tbody.innerHTML = ''; // Limpar a tabela antes de adicionar novos dados
+
+                // Preencher a tabela com os dados da resposta
+                data.forEach(salgadinho => {
+                    const tr = document.createElement('tr');
+                    tr.innerHTML = `
+                        <td>${salgadinho.nome}</td>
+                        <td>${salgadinho.sabor}</td>
+                        <td>${salgadinho.media_nota.toFixed(1)}</td>
+                    `;
+                    tbody.appendChild(tr);
+                });
+            } catch (err) {
+                alert('Desculpe, aconteceu um erro inesperado');
+                console.log(err);
+            }
+        }
+    </script>
+
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+</body>
+
+</html>

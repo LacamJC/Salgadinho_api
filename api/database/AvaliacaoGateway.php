@@ -58,8 +58,21 @@ class AvaliacaoGateway
     public static function all()
     {
         try {
-            $sql = "SELECT avaliacoes.id, salgadinhos.nome, avaliacoes.nota FROM avaliacoes INNER JOIN salgadinhos ON salgadinhos.id = avaliacoes.salgadinho_id;
-";
+            $sql = "
+            SELECT 
+                salgadinhos.nome, 
+                salgadinhos.sabor, 
+                AVG(avaliacoes.nota) AS media_nota
+            FROM 
+                avaliacoes
+            INNER JOIN 
+                salgadinhos ON salgadinhos.id = avaliacoes.salgadinho_id
+            GROUP BY 
+                salgadinhos.nome, salgadinhos.sabor
+            ORDER BY 
+                media_nota DESC
+        ";
+
             $result = self::$conn->query($sql);
             return $result->fetchAll(PDO::FETCH_ASSOC);
         } catch (Exception $e) {
