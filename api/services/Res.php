@@ -14,7 +14,7 @@ class Res
         if (empty($data)) {
             $this->httpCode(404);
             $res = new stdClass;
-            $res->message = "Salgadinho nao encontrado";
+            $res->message = "Informacoes nao encontrado";
             echo json_encode($res, JSON_PRETTY_PRINT);
         } else {
             $this->httpCode(200);

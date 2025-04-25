@@ -2,9 +2,10 @@
 
 namespace Api\Controllers;
 
+use Api\Abstract\Controller;
 use Api\Services\SalgadinhoService;
 use Api\Services\Res;
-class SalgadinhoController
+class SalgadinhoController extends Controller
 {
     public function index($params = [])
     {

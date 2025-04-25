@@ -38,10 +38,10 @@ class SalgadinhoGateway
         try {
             if (empty($this->data['id'])) {
                 // Inserção de um novo salgadinho
-                if(self::verifyExists($this->nome, $this->sabor)){
+                if (self::verifyExists($this->nome, $this->sabor)) {
                     return json_encode(['message' => 'Sabor de salgadinho ja existe']);
                 }
-                $id = $this->getLastId() +1;
+                $id = $this->getLastId() + 1;
                 $sql = "INSERT INTO salgadinhos (id, nome, sabor) VALUES ('{$id}','{$this->nome}', '{$this->sabor}')";
             } else {
                 // Atualização de um salgadinho existente
@@ -49,6 +49,7 @@ class SalgadinhoGateway
             }
 
             // Executando o SQL
+
             self::$conn->exec($sql);
             return json_encode(['message' => 'Sucesso ao salvar salgadinho']);
         } catch (Exception $e) {
@@ -78,6 +79,19 @@ class SalgadinhoGateway
         }
     }
 
+    public static function idExists($id)
+    {
+        $sql = "SELECT * FROM salgadinhos WHERE id = '{$id}'";
+
+        $result = self::$conn->query($sql);
+
+        if ($result && is_array($result->fetch(PDO::FETCH_ASSOC))) {
+            return true; // O usuario existe
+        } else {
+            return false; // O usuario não existe
+        }
+    }
+
     // Função para listar todos os salgadinhos
     public static function findAll()
     {
@@ -86,13 +100,14 @@ class SalgadinhoGateway
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function getLastId(){
-        try{
+    public function getLastId()
+    {
+        try {
             $sql = "SELECT max(id) as max FROM salgadinhos";
             $result = self::$conn->query($sql);
             $data = $result->fetch(PDO::FETCH_OBJ);
             return $data->max;
-        }catch(Exception $e){
+        } catch (Exception $e) {
             echo $e->getMessage();
         }
     }
