@@ -5,9 +5,8 @@ namespace Api\Controllers;
 use Api\Abstract\Controller;
 use Api\Services\UserService;
 use Api\Services\AvaliarService;
-use Api\Services\Res;
 use Api\Core\Response;
-use Exception;
+
 
 class UserController extends Controller
 {
@@ -27,15 +26,13 @@ class UserController extends Controller
                 'senha' => ($_POST['senha']) ?? '',
                 'email' => ($_POST['email']) ?? '',
             ];
-            // print_r($_SERVER['REQUEST_METHOD']);
-            // print_r($_POST['senha']);
-            // return;
+ 
             foreach ($dados as $prop => $value) {
                 if (empty($value) or strlen($value) <= 0) {
                     return Response::json("O campo '{$prop}' nao pode ser vazio", 400);
                 }
             }
-            // return;
+        
             UserService::store($dados);
         }
     }
