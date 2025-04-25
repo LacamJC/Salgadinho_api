@@ -1,89 +1,214 @@
+# Salgadinho API 🍟
 
-# Salgadinho API
+**Uma API RESTful para gerenciamento de salgadinhos, avaliações e usuários**
 
-## Descrição
+## 📌 Visão Geral
+API desenvolvida em PHP seguindo padrão MVC para cadastro e avaliação de salgadinhos, com:
+- Autenticação básica
+- Operações CRUD completas
+- Banco de dados SQLite
+- Sistema de avaliações (0-10) e comentários
 
-A **Salgadinho API** é uma aplicação desenvolvida em PHP, destinada a gerenciar informações sobre salgadinhos, suas avaliações e comentários de usuários. O projeto utiliza o padrão de arquitetura MVC e segue as boas práticas de desenvolvimento, incluindo o uso de PDO para interação com o banco de dados e o Composer para autoload.
+## 🚀 Endpoints
 
-Esta API permite realizar as operações CRUD (Create, Read, Update, Delete) em recursos como salgadinhos, usuários, avaliações e comentários.
+### 1. Salgadinhos
 
-## Estrutura do Projeto
+#### `GET /salgadinhos`
+Lista todos os salgadinhos cadastrados.
 
-- **api/**: Contém a lógica da aplicação, incluindo controladores, serviços, gateways e modelos.
-  - **abstract/**: Contém classes abstratas que servem como base para outros serviços.
-  - **controllers/**: Controladores que lidam com as requisições HTTP.
-  - **core/**: Contém a implementação do roteador e outras funcionalidades auxiliares.
-  - **database/**: Responsável pela conexão e interação com o banco de dados.
-  - **services/**: Contém a lógica de negócios e interações entre controladores e gateways.
-  
-- **config/**: Arquivos de configuração, incluindo o arquivo `.ini` para configurar a conexão com o banco de dados.
+**Resposta:**
+```json
+[
+  {
+    "id": 1,
+    "nome": "DORITOS",
+    "sabor": "QUEIJO NACHO"
+  },
+  {
+    "id": 2,
+    "nome": "CHEETOS",
+    "sabor": "REQUEIJÃO"
+  }
+]
+```
 
-- **public/**: A pasta pública onde o arquivo de entrada da aplicação (`index.php`) e o arquivo `.htaccess` estão localizados. O arquivo `index.php` é responsável por inicializar a aplicação e tratar as requisições.
+#### `GET /salgadinhos/{id}`
+Busca um salgadinho específico.
 
-- **database/**: Contém o banco de dados SQLite e as definições das tabelas.
+**Resposta:**
+```json
+{
+  "id": 1,
+  "nome": "DORITOS",
+  "sabor": "QUEIJO NACHO",
+  "media_avaliacoes": 8.5
+}
+```
 
-## Funcionalidades
+#### `POST /salgadinhos`
+Cadastra um novo salgadinho.
 
-- **Listar todos os salgadinhos**: Retorna todos os salgadinhos cadastrados.
-- **Buscar salgadinho por ID**: Retorna informações detalhadas de um salgadinho específico através de seu ID.
-- **Cadastrar e editar salgadinhos**: Permite a criação e edição de registros de salgadinhos.
-- **Avaliações**: Usuários podem avaliar salgadinhos com notas de 0 a 10.
-- **Comentários**: Usuários podem deixar comentários sobre salgadinhos.
+**Request:**
+```json
+{
+  "nome": "Novo Salgadinho",
+  "sabor": "Frango"
+}
+```
 
-## Tecnologias Utilizadas
+**Resposta (Sucesso):**
+```json
+{
+  "status": "success",
+  "message": "Salgadinho criado com sucesso",
+  "data": {
+    "id": 11
+  }
+}
+```
 
-- **PHP 7.x ou superior**
-- **PDO** para interação com o banco de dados
-- **SQLite** como banco de dados
-- **Composer** para gerenciar dependências e autoloading
-- **MVC** como padrão de arquitetura
+### 2. Usuários
 
-## Configuração
+#### `POST /usuarios`
+Cadastra um novo usuário.
 
-1. Clone o repositório:
+**Request:**
+```json
+{
+  "nome": "João Silva",
+  "email": "joao@email.com",
+  "senha": "123456"
+}
+```
+
+**Resposta:**
+```json
+{
+  "status": "success",
+  "message": "Usuário criado com sucesso"
+}
+```
+
+### 3. Avaliações
+
+#### `POST /avaliar`
+Registra uma avaliação de usuário para um salgadinho.
+
+**Request:**
+```json
+{
+  "id_usuario": 1,
+  "id_salgadinho": 3,
+  "nota": 9
+}
+```
+
+**Resposta (Erro):**
+```json
+{
+  "status": "error",
+  "message": "Usuário já avaliou este item"
+}
+```
+
+#### `GET /avaliacoes`
+Lista ranking de salgadinhos por média de avaliações
+
+**Resposta:**
+```json
+[
+  {
+    "nome": "DORITOS",
+    "sabor": "QUEIJO NACHO",
+    "media_nota": 9.5
+  },
+  {
+    "nome": "CHEETOS",
+    "sabor": "REQUEIJÃO",
+    "media_nota": 8.7
+  }
+]
+```
+
+## 🛠️ Tecnologias Utilizadas
+- **Backend**:
+  - PHP 7.4+
+  - PDO (SQLite)
+  - Arquitetura MVC
+- **Frontend**:
+  - HTML5/CSS3
+  - JavaScript (Axios)
+- **Ferramentas**:
+  - Composer (Autoload)
+  - Git
+
+## ⚙️ Configuração
+
+1. **Requisitos**:
+   - PHP 7.4+
+   - SQLite3
+   - Composer
+
+2. **Instalação**:
    ```bash
    git clone https://github.com/LacamJC/salgadinho_api.git
-   ```
-
-2. Instale as dependências do Composer:
-   ```bash
    cd salgadinho_api
    composer install
    ```
 
-3. Configure o banco de dados:
-   - O banco de dados SQLite é configurado através do arquivo `config/database.ini`. 
-   - Se necessário, ajuste as configurações para o seu ambiente local.
+3. **Banco de Dados**:
+   ```bash
+   sqlite3 database/database.db < database/tables.db
+   sqlite3 database/database.db < database/inser.db
+   ```
 
-4. Crie o banco de dados e as tabelas executando o script SQL `database/tables.db` no seu banco de dados SQLite.
+4. **Execução**:
+   ```bash
+   php -S localhost:8000 -t public
+   ```
 
-5. Abra o arquivo `.htaccess` na pasta `public/` e configure a base URL caso seja necessário.
+## 📊 Diagrama do Banco de Dados
+```mermaid
+erDiagram
+    USUARIOS ||--o{ AVALIACOES : "avalia"
+    USUARIOS ||--o{ COMENTARIOS : "comenta"
+    SALGADINHOS ||--o{ AVALIACOES : "recebe"
+    SALGADINHOS ||--o{ COMENTARIOS : "recebe"
 
-## Endpoints
-
-- **GET `/`**: Exibe uma mensagem de boas-vindas.
-- **GET `/salgadinhos`**: Retorna uma lista de todos os salgadinhos.
-- **GET `/salgadinho/{id}`**: Retorna detalhes de um salgadinho específico com base no ID.
-  
-Exemplo de requisição:
-```bash
-curl -X GET http://localhost/salgadinho_api/salgadinho/1
+    USUARIOS {
+        int id PK
+        string nome
+        string email
+        string senha
+    }
+    
+    SALGADINHOS {
+        int id PK
+        string nome
+        string sabor
+    }
+    
+    AVALIACOES {
+        int id PK
+        int usuario_id FK
+        int salgadinho_id FK
+        decimal nota
+    }
+    
+    COMENTARIOS {
+        int id PK
+        int usuario_id FK
+        int salgadinho_id FK
+        string texto
+    }
 ```
 
-## Estrutura do Banco de Dados
+## 🤝 Contribuição
+1. Faça um fork do projeto
+2. Crie sua branch (`git checkout -b feature/nova-feature`)
+3. Commit suas mudanças (`git commit -m 'Add nova feature'`)
+4. Push para a branch (`git push origin feature/nova-feature`)
+5. Abra um Pull Request
 
-O banco de dados contém as seguintes tabelas:
-
-- **salgadinhos**: Informações dos salgadinhos (id, nome, sabor, etc.).
-- **usuarios**: Dados dos usuários (id, nome, email).
-- **avaliacoes**: Avaliações dos salgadinhos pelos usuários (nota de 0 a 10).
-- **comentarios**: Comentários dos usuários sobre os salgadinhos.
-
-## Contribuindo
-
-1. Faça um fork deste repositório.
-2. Crie uma branch para sua modificação (`git checkout -b feature/nome-da-feature`).
-3. Faça as mudanças necessárias e commit com uma mensagem clara (`git commit -am 'Adiciona nova funcionalidade'`).
-4. Push para a branch (`git push origin feature/nome-da-feature`).
-5. Abra um Pull Request.
-
+## 📄 Licença
+MIT License © 2023 [LacamJC](https://github.com/LacamJC)
