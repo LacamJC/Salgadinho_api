@@ -5,6 +5,7 @@ namespace Api\Database;
 use Api\Database\UserGateway;
 use PDO;
 use Exception;
+use PDOException;
 
 class AvaliacaoGateway
 {
@@ -103,6 +104,17 @@ class AvaliacaoGateway
             $data = $result->fetch(PDO::FETCH_OBJ);
             return $data->max;
         } catch (Exception $e) {
+            echo $e->getMessage();
+        }
+    }
+
+    public static function findLabel($id)
+    {
+        try {
+            $sql = "SELECT salgadinhos.id AS salgadinho_id, salgadinhos.nome, salgadinhos.sabor, AVG(avaliacoes.nota) AS media_nota FROM avaliacoes INNER JOIN salgadinhos ON salgadinhos.id = avaliacoes.id WHERE salgadinhos.id = {$id} GROUP BY salgadinhos.nome, salgadinhos.sabor ORDER BY media_nota DESC";
+            $result = self::$conn->query($sql);
+            return $result->fetchAll(PDO::FETCH_ASSOC);
+        } catch (PDOException $e) {
             echo $e->getMessage();
         }
     }

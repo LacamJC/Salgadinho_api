@@ -4,6 +4,7 @@ namespace Api\Database;
 
 use PDO;
 use Exception;
+use PDOException;
 
 class UserGateway
 {
@@ -110,6 +111,19 @@ class UserGateway
             return $data->max;
         } catch (Exception $e) {
             echo $e->getMessage();
+        }
+    }
+
+    public static function delete($id)
+    {
+        try {
+            $sql = "DELETE FROM usuarios WHERE id = {$id}";
+            if ($id == null) {
+                throw new Exception("ID inválido");
+            }
+            return self::$conn->query($sql);
+        } catch (PDOException $e) {
+            return $e->getMessage();
         }
     }
 }

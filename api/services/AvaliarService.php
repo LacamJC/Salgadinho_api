@@ -7,6 +7,7 @@ use Api\Database\UserGateway;
 use Api\Database\AvaliacaoGateway;
 use Api\Database\SalgadinhoGateway;
 use Api\Core\Response;
+use Exception;
 
 class AvaliarService
 {
@@ -54,5 +55,17 @@ class AvaliarService
         }
 
         $avaliacoes = AvaliacaoGateway::mediaSalgadinho($id_salgadinho); 
+    }
+
+    public static function findBySalgadinho($id){
+        try{
+            $conn = Connection::open('database');
+            AvaliacaoGateway::setConnection($conn);
+            $result = AvaliacaoGateway::findLabel($id);
+
+            Response::json($result);
+        }catch(Exception $e){
+            Response::json(['message' => $e->getMessage()], 500);
+        }
     }
 }

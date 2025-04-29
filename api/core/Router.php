@@ -18,6 +18,10 @@ class Router
         $this->routes['POST'][$path] = $handler;
     }
 
+    public function delete($path, $handler){
+        $this->routes['DELETE'][$path] = $handler;
+    }
+
     public function dispatch()
     {
         $url = $_GET['url'] ?? '/';

@@ -30,6 +30,11 @@ final class Connection
                 $conn = new PDO("sqlite:". dirname(dirname(__DIR__)) . "/$name");
                
                 break;
+
+            case 'mysql':
+                $port = $port ? $port : '3306';
+                $conn = new PDO("mysql:host={$host};port={$port};dbname={$name}", $user, $pass);
+                break;
         }
 
         $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);

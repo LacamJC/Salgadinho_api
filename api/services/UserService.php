@@ -8,6 +8,8 @@ use Api\Database\Connection;
 use Api\Core\Response;
 use Exception;
 
+use function PHPSTORM_META\expectedArguments;
+
 class UserService
 {
     public static function all()
@@ -54,6 +56,22 @@ class UserService
             }
         } catch (Exception $e) {
             return Response::json(['message' => "Erro ao cadastrar usuario: {$e->getMessage()}"], 500);
+        }
+    }
+
+    public static function delete($id){
+        try{
+            $conn = Connection::open('database');
+            UserGateway::setConnection($conn);
+            // echo $id;
+            if (UserGateway::delete($id)){
+                Response::json(['message' => "Usuario deletado com sucesso"]);    
+            }else{
+                Response::json(['message' => "Erro ao deletar usuario"]);
+            }
+            
+        }catch(Exception $e){
+             Response::json(['message' => "Erro ao deletar usuario: {$e->getMessage()}"], 500);
         }
     }
 }
