@@ -15,12 +15,14 @@ $router->delete('usuarios/{id}', 'UserController@delete');
 
 $router->get('salgadinhos', 'SalgadinhoController@all');
 $router->get('salgadinhos/{id}', 'SalgadinhoController@findById');
+$router->get('salgadinhos/media/{id}', 'SalgadinhoController@media');
 $router->post('salgadinhos', 'SalgadinhoController@store');
 
 
 $router->post('avaliacoes', 'AvaliacaoController@avaliar');
 $router->get('avaliacoes', 'AvaliacaoController@index');
 $router->get('avaliacoes/{id}', 'AvaliacaoController@findByIdSalgadinho');
+
 
 $router->post('comentarios', 'ComentarioController@store');
 

@@ -53,4 +53,10 @@ class SalgadinhoController extends Controller
             echo "Sem registros";
         }
     }
+
+    public function media($params =[]){
+        $id = $params['id'] ?? null;
+        $salgadinho = SalgadinhoService::media($id);
+        Response::json($salgadinho);
+    }
 }

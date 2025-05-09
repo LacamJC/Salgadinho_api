@@ -100,6 +100,13 @@ class SalgadinhoGateway
         return $result->fetchAll(PDO::FETCH_ASSOC);
     }
 
+    public static function media($id){
+        // $sql = "SELECT salgadinhos.nome, AVG(nota) as media FROM avaliacoes WHERE salgadinho_id = '{$id}' INNER JOIN salgadinhos";
+        $sql = " ";
+        $result = self::$conn->query($sql);
+        return $result->fetchAll(PDO::FETCH_ASSOC);
+    }
+
     public function getLastId()
     {
         try {

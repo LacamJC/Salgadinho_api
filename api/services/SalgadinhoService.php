@@ -34,6 +34,14 @@ class SalgadinhoService{
         // echo $result;
         return $result;
     }
+
+    public static function media($id){
+        $conn = Connection::open('database');
+        SalgadinhoGateway::setConnection($conn);
+        return SalgadinhoGateway::media($id);
+    }
+
+   
 }
 
 ?>
